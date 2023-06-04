@@ -3,6 +3,7 @@ import './App.css';
 import { Login } from './components/login';
 import { CreateFile } from './components/CreateFile';
 import { UserInfo } from './components/UserInfo';
+import { ReadFile } from './components/ReadFile';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Login setUser={(user) => setUser(user)} setAccessToken={(token: string) => setAccessToken(token)}/>
       <UserInfo user={user} token={accessToken}/>
       <CreateFile token={accessToken}/>
+      <ReadFile token={accessToken} />
     </div>
   );
 }
