@@ -63,7 +63,6 @@ export function ReadFile ({ token }: IReadFileProps) {
                 continue   
             }
             
-            // console.log('table found', element.table.tableRows)
             if (element.table.rows !== 9 || element.table.columns !== 2) {
                 console.log(`Table not in right format. Expected 9 rows / 2 columns, got ${element.table.rows} / ${element.table.columns}`)
             }
@@ -121,22 +120,6 @@ export function ReadFile ({ token }: IReadFileProps) {
             
             )}
         </div>
-        
-        {/* {parseDocument(docBody)} */}
-        {/* {docBody !== null && docBody.content.map((el: any): JSX.Element | undefined => {
-            if (el.hasOwnProperty('table') ) {
-                return <div style={{backgroundColor: 'gray', margin: '1rem'}}>table {el.table.tableRows.map((row: any) => {
-                    return <p>Table row{row.tableCells.map((cell: any) => {
-                        const cellContent = cell.content[0].paragraph.elements[0].textRun
-                        if (cellContent !== undefined) {
-                            return <p>{JSON.stringify(cellContent.content)}</p>
-                        }
-                    })}</p>
-                })}</div>
-                // return <p style={{marginTop: 50}}>{JSON.stringify(el.table)}</p>
-            }
-            return <div style={{paddingTop: 20}}></div>
-        })} */}
     </div>
   );
 }
