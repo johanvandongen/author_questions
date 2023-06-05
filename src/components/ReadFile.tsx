@@ -1,12 +1,12 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Table } from '../models/Table';
+import { ITable } from '../models/ITable';
 import { parseGoogleDoc } from '../utils/googleDocParser';
 
 export interface IReadFileProps {
     token: string;
-    setTables: (tables: Table[]) => void;
+    setTables: (tables: ITable[]) => void;
 }
 
 export function ReadFile ({ token, setTables }: IReadFileProps) {
@@ -31,7 +31,7 @@ export function ReadFile ({ token, setTables }: IReadFileProps) {
     function getIdFromUrl(url: string) { return url.match(/[-\w]{25,}/); }
 
     useEffect(() => {
-        const tables: Table[] | undefined = parseGoogleDoc(docBody)
+        const tables: ITable[] | undefined = parseGoogleDoc(docBody)
         if (tables) {
             setTables(tables)
         }

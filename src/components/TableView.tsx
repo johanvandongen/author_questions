@@ -1,24 +1,15 @@
 import * as React from 'react';
-import { Table } from '../models/Table';
+import { ITable } from '../models/ITable';
+import { Table } from './Table';
 
 export interface ITableViewProps {
-    tables: Table[];
+    tables: ITable[];
 }
 
 export function TableView ({tables}: ITableViewProps) {
   return (
-    <div>
-        {tables.map((table:Table) => 
-                
-            <div key={JSON.stringify(table)} style={{backgroundColor: 'gray', margin: '1rem', textAlign: 'left'}}>
-                {(Object.entries(table).map(([key, value]) => (
-                    <div key={key+value} style={{ display: 'flex', flexDirection: 'row', padding: '0.25rem'}}>
-                        <div style={{color:'white', fontWeight: 'bold', minWidth: '10%'}}>{key}</div>
-                        <div style={{color:'white'}}>{value}</div>
-                    </div>
-                )))}
-            </div>
-            )}
+    <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
+        {tables.map((table:ITable) => <Table table={table}/>)}
     </div>
   );
 }
