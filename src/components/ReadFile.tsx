@@ -1,29 +1,16 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
-interface Table {
-    tableId: string, 
-    date: string, 
-    issue: string, 
-    exerciseId: string, 
-    screenshot: any, 
-    question: string | string[], 
-    chapter: string, 
-    treated: string, 
-    answer: string, 
-    authorReply: string
-
-}
+import { Table } from '../models/Table';
 
 export interface IReadFileProps {
-    token: string
+    token: string;
+    setTables: (tables: Table[]) => void;
 }
 
-export function ReadFile ({ token }: IReadFileProps) {
+export function ReadFile ({ token, setTables }: IReadFileProps) {
     const [docBody, setDocBody] = useState<any>(null);
     const [docUrl, setDocUrl] = useState<string>('');
-    const [tables, setTables] = useState<Table[]>([]);
 
     function readFile(token: string) {
         const docId = getIdFromUrl(docUrl)
@@ -105,21 +92,6 @@ export function ReadFile ({ token }: IReadFileProps) {
             Enter doc URL
             <input type="text" value={docUrl} onChange={(e) => setDocUrl(e.target.value)}/>
         </label>
-
-        <div>
-            {tables.map((table:Table) => 
-            
-            <div key={JSON.stringify(table)} style={{backgroundColor: 'gray', margin: '1rem', textAlign: 'left'}}>
-                {(Object.entries(table).map(([key, value]) => (
-                    <div key={key+value} style={{ display: 'flex', flexDirection: 'row', padding: '0.25rem'}}>
-                        <div style={{color:'white', fontWeight: 'bold', minWidth: '10%'}}>{key}</div>
-                        <div style={{color:'white'}}>{value}</div>
-                    </div>
-                )))}
-            </div>
-            
-            )}
-        </div>
     </div>
   );
 }
