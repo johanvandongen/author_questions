@@ -8,9 +8,11 @@ export interface IReadFileProps {
 
 export function ReadFile ({ token }: IReadFileProps) {
     const [docBody, setDocBody] = useState<any>(null);
+    const [docUrl, setDocUrl] = useState<string>('');
 
     function readFile(token: string) {
-        const docId = '1JmQk0Gfto7J0Cax_S4Yz5X1_sEfZxAs1E5vbhf_cMK8'
+        const docId = getIdFromUrl(docUrl)
+        console.log(docId)
         const link = `https://docs.googleapis.com/v1/documents/${docId}`
         axios.get(link, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -21,6 +23,9 @@ export function ReadFile ({ token }: IReadFileProps) {
             console.log(error)
         })
     }
+
+    // https://stackoverflow.com/questions/16840038/easiest-way-to-get-file-id-from-url-on-google-apps-script
+    function getIdFromUrl(url: string) { return url.match(/[-\w]{25,}/); }
 
     const [tables, setTables] = useState<any>([]);
 
@@ -74,6 +79,10 @@ export function ReadFile ({ token }: IReadFileProps) {
   return (
     <div>
         <button onClick={() => readFile(token)}>read file</button>
+        <label>
+            Enter doc URL
+            <input type="text" value={docUrl} onChange={(e) => setDocUrl(e.target.value)}/>
+        </label>
 
         <div>
             {tables.map((table:any) => 
@@ -91,7 +100,7 @@ export function ReadFile ({ token }: IReadFileProps) {
         </div>
         
         {/* {parseDocument(docBody)} */}
-        {docBody !== null && docBody.content.map((el: any): JSX.Element | undefined => {
+        {/* {docBody !== null && docBody.content.map((el: any): JSX.Element | undefined => {
             if (el.hasOwnProperty('table') ) {
                 return <div style={{backgroundColor: 'gray', margin: '1rem'}}>table {el.table.tableRows.map((row: any) => {
                     return <p>Table row{row.tableCells.map((cell: any) => {
@@ -104,7 +113,7 @@ export function ReadFile ({ token }: IReadFileProps) {
                 // return <p style={{marginTop: 50}}>{JSON.stringify(el.table)}</p>
             }
             return <div style={{paddingTop: 20}}></div>
-        })}
+        })} */}
     </div>
   );
 }
