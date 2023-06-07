@@ -1,0 +1,22 @@
+{
+    "printWidth": 120,
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "preserve",
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "avoid",
+    "requirePragma": false,
+    "endOfLine": "auto",
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+  }
+  
