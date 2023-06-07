@@ -16,6 +16,6 @@ export function UserInfo ({user, token}: IUserInfoProps) {
 
 const style = {
     color: 'white',
-    backgroundColor: 'gray',
+    backgroundColor: '#F05454',
     padding: '5rem'
 }
