@@ -11,3 +11,12 @@ export const parseTitle = (title: string): string => {
     }
     return author[1].toString();
 };
+
+/**
+ * Returns the google id (folder, doc, etc.) from url.
+ * @param url url of the google file
+ */
+export function getIdFromUrl(url: string): RegExpMatchArray | null {
+    // https://stackoverflow.com/questions/16840038/easiest-way-to-get-file-id-from-url-on-google-apps-script
+    return url.match(/[-\w]{25,}/);
+}
