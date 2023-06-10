@@ -10,7 +10,7 @@ export function TableView({ tables }: ITableViewProps): JSX.Element {
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
             {tables.map((table: ITable) => (
-                <Table key={table.date + table.answer} table={table} />
+                <Table key={table.date + table.answer + table.tableId} table={table} />
             ))}
         </div>
     );

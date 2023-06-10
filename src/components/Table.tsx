@@ -17,8 +17,9 @@ export function Table({ table }: ITableProps): JSX.Element {
             }}
         >
             <div>
-                {table.date} {table.tableId} {table.issue} {table.treated}
+                {table.date} {table.issue} {table.treated}
             </div>
+            <div>Author: {table.author}</div>
             <div style={rowStyle}>
                 <p style={{ paddingBottom: 5 }}>Question:</p>
                 <p>{table.question}</p>

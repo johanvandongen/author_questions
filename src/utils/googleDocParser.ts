@@ -1,11 +1,42 @@
+import { v4 as uuidv4 } from 'uuid';
 import { type ITable } from '../models/ITable';
+import { parseTitle } from './utils';
 
-const getCellTextContent = (cell: any): any => {
-    const cellContent = cell.content[0].paragraph.elements[0].textRun;
-    if (cellContent !== undefined) {
-        return cellContent.content;
+/**
+ * Returns the cell content of the second column.
+ * @param row row that you want the second cell content off.
+ */
+const getCellTextContent = (row: any): string[] => {
+    return readStructuralElements(row.tableCells[1].content);
+};
+
+/**
+ * Parses a structural element and returns a list of strings.
+ * @param elements structural element {@see https://developers.google.com/docs/api/samples/extract-text }
+ */
+const readStructuralElements = (elements: any): string[] => {
+    const text: string[] = [];
+    for (const element of elements) {
+        if (Object.prototype.hasOwnProperty.call(element, 'paragraph')) {
+            const elements = element.paragraph.elements;
+            for (const elem of elements) {
+                text.push(parseParagraph(elem));
+            }
+        }
     }
-    return 'none';
+    return text;
+};
+
+/**
+ * Returns the content of a paragraph.
+ * @param element paragraph element
+ */
+const parseParagraph = (element: any): string => {
+    const hasTextRun = Object.prototype.hasOwnProperty.call(element, 'textRun');
+    if (!hasTextRun) {
+        return '';
+    }
+    return element.textRun.content;
 };
 
 /**
@@ -18,12 +49,14 @@ const getCellTextContent = (cell: any): any => {
  */
 export const parseGoogleDoc = (doc: any): ITable[] | undefined => {
     console.log('start parsing');
-    if (doc === null) {
+    if (doc === null || doc === undefined) {
         return;
     }
 
+    const author = parseTitle(doc.title);
+
     const tempTables: ITable[] = [];
-    for (const element of doc.content) {
+    for (const element of doc.body.content) {
         const hasTableProperty = Object.prototype.hasOwnProperty.call(element, 'table');
         if (!hasTableProperty) {
             continue;
@@ -39,30 +72,31 @@ export const parseGoogleDoc = (doc: any): ITable[] | undefined => {
         }
 
         const table: ITable = {
-            tableId: '',
+            tableId: uuidv4(),
+            author,
             date: '',
             issue: '',
             exerciseId: '',
             screenshot: undefined,
-            question: '',
+            question: [],
             chapter: '',
             treated: '',
-            answer: '',
-            authorReply: '',
+            answer: [],
+            authorReply: [],
         };
         const rows: any[] = element.table.tableRows;
-        table.date = getCellTextContent(rows[0].tableCells[1]);
-        table.issue = getCellTextContent(rows[1].tableCells[1]);
-        table.exerciseId = getCellTextContent(rows[2].tableCells[1]);
-        table.screenshot = getCellTextContent(rows[3].tableCells[1]);
-        table.question = getCellTextContent(rows[4].tableCells[1]);
-        table.chapter = getCellTextContent(rows[5].tableCells[1]);
-        table.treated = getCellTextContent(rows[6].tableCells[1]);
-        table.answer = getCellTextContent(rows[7].tableCells[1]);
-        table.authorReply = getCellTextContent(rows[8].tableCells[1]);
+        table.date = getCellTextContent(rows[0])[0];
+        table.issue = getCellTextContent(rows[1])[0];
+        table.exerciseId = getCellTextContent(rows[2])[0];
+        table.screenshot = getCellTextContent(rows[3]);
+        table.question = getCellTextContent(rows[4]);
+        table.chapter = getCellTextContent(rows[5])[0];
+        table.treated = getCellTextContent(rows[6])[0];
+        table.answer = getCellTextContent(rows[7]);
+        table.authorReply = getCellTextContent(rows[8]);
 
         // No point of having a question info table with no question
-        if (table.question === '\n') {
+        if (table.question.join() === '\n') {
             continue;
         }
 

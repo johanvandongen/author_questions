@@ -9,7 +9,7 @@ export interface ILoginProps {
 
 export function Login({ setUser, setAccessToken }: ILoginProps): JSX.Element {
     const googleLogin = useGoogleLogin({
-        scope: 'https://www.googleapis.com/auth/documents',
+        scope: 'https://www.googleapis.com/auth/documents https://www.googleapis.com/auth/drive.readonly',
         onSuccess: (tokenResponse) => {
             console.log(tokenResponse);
             void updateUser(tokenResponse.access_token);
