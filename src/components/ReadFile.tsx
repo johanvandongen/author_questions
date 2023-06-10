@@ -13,8 +13,6 @@ export interface IReadFileProps {
 }
 
 export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
-    // const [docUrl, setDocUrl] = useState<string>('');
-    // const [folderUrl, setFolderUrl] = useState<string>('');
     const [questionDocIds, setQuestionDocIds] = useState<string[]>([]);
 
     /** Stores google doc id (retrieved from URL) in state. */
@@ -22,6 +20,7 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
         console.log('called with', url);
         const docId = getIdFromUrl(url);
         if (docId === null) {
+            alert('URL not found');
             return;
         }
         setQuestionDocIds(docId);
@@ -31,6 +30,7 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
     function readFolder(url: string): void {
         const folderId = getIdFromUrl(url);
         if (folderId === null) {
+            alert('URL not found');
             return;
         }
         void getGoogleFolderFiles(token, folderId.toString())
@@ -39,6 +39,7 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
             })
             .catch((error) => {
                 console.log(error);
+                alert(error);
             });
     }
 
