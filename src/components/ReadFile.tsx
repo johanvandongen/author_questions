@@ -10,42 +10,19 @@ export interface IReadFileProps {
 }
 
 export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
-    const [docBody, setDocBody] = useState<any>(null);
     const [docUrl, setDocUrl] = useState<string>('');
     const [folderUrl, setFolderUrl] = useState<string>('');
     const [questionDocIds, setQuestionDocIds] = useState<string[]>([]);
 
-    function readFile(token: string, docId: string | undefined): void {
-        let newDocId: string = '';
-
-        if (docId !== undefined) {
-            newDocId = docId;
-        } else {
-            const id = getIdFromUrl(docUrl);
-            if (id === null) {
-                return;
-            }
-            newDocId = id.toString();
+    function readFile(): void {
+        const docId = getIdFromUrl(docUrl);
+        if (docId === null) {
+            return;
         }
-
-        console.log(docId);
-        const link = `https://docs.googleapis.com/v1/documents/${newDocId}`;
-        axios
-            .get(link, {
-                headers: { 'Authorization': `Bearer ${token}` },
-            })
-            .then((response) => {
-                console.log(response.data);
-                console.log(response.data.body);
-                setDocBody(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        setQuestionDocIds(docId);
     }
 
     async function readDocFile(token: string, docId: string): Promise<any> {
-        console.log(docId);
         const link = `https://docs.googleapis.com/v1/documents/${docId}`;
         return await axios
             .get(link, {
@@ -60,12 +37,12 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
     }
 
     function readFolder(token: string): void {
-        const driveId = getIdFromUrl(folderUrl);
-        if (driveId === null) {
+        const folderId = getIdFromUrl(folderUrl);
+        if (folderId === null) {
             return;
         }
-        console.log('start requesting drive folder', driveId);
-        const link = `https://www.googleapis.com/drive/v2/files?q='${driveId.toString()}'+in+parents`;
+        console.log('start requesting drive folder', folderId);
+        const link = `https://www.googleapis.com/drive/v2/files?q='${folderId.toString()}'+in+parents`;
         axios
             .get(link, {
                 headers: { 'Authorization': `Bearer ${token}` },
@@ -107,22 +84,16 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
 
     useEffect(() => {
         if (questionDocIds.length > 0) {
+            console.log(`start fetching tables from ${questionDocIds.length} doc(s)`);
             getTables();
         }
     }, [questionDocIds]);
 
-    useEffect(() => {
-        const tables: ITable[] | undefined = parseGoogleDoc(docBody);
-        if (tables !== undefined) {
-            setTables(tables);
-        }
-    }, [docBody]);
-
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
             <button
                 onClick={() => {
-                    readFile(token, undefined);
+                    readFile();
                 }}
             >
                 read file
