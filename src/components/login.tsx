@@ -3,33 +3,41 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
 export interface ILoginProps {
-    setUser: (s: any) => void
-    setAccessToken: (s: string) => void
+    setUser: (s: any) => void;
+    setAccessToken: (s: string) => void;
 }
 
-export function Login ({setUser, setAccessToken}: ILoginProps) {
+export function Login({ setUser, setAccessToken }: ILoginProps): JSX.Element {
     const googleLogin = useGoogleLogin({
         scope: 'https://www.googleapis.com/auth/documents',
-        onSuccess: async tokenResponse => {
-          console.log(tokenResponse);
-          // fetching userinfo can be done on the client or the server
-          const userInfo = await axios
-            .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-              headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-            })
-            .then(res => res.data);
-        
-          console.log(userInfo);
-          setUser(userInfo)
-          setAccessToken(tokenResponse.access_token)
+        onSuccess: (tokenResponse) => {
+            console.log(tokenResponse);
+            void updateUser(tokenResponse.access_token);
+            setAccessToken(tokenResponse.access_token);
         },
     });
 
-  return (
-    <div>
-        <button onClick={() => googleLogin()}>
-            Login
-        </button>
-    </div>
-  );
+    const updateUser = async (token: string): Promise<void> => {
+        // fetching userinfo can be done on the client or the server
+        const userInfo = await axios
+            .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => res.data);
+
+        console.log('User info', userInfo);
+        setUser(userInfo);
+    };
+
+    return (
+        <div>
+            <button
+                onClick={() => {
+                    googleLogin();
+                }}
+            >
+                Login
+            </button>
+        </div>
+    );
 }
