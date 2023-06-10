@@ -10,7 +10,7 @@ export function Table({ table }: ITableProps): JSX.Element {
         <div
             style={{
                 backgroundColor: '#DDDDDD',
-                margin: '1rem',
+                // margin: '1rem',
                 textAlign: 'left',
                 padding: 5,
                 borderRadius: '1rem',

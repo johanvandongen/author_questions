@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import Button from './ui/Button';
 
 export interface ICreateFileProps {
     token: string;
@@ -55,13 +56,12 @@ export function CreateFile({ token }: ICreateFileProps): JSX.Element {
                     Close
                 </button>
             </Modal>
-            <button
+            <Button
                 onClick={() => {
                     createFile(token);
                 }}
-            >
-                Create file
-            </button>
+                text={'Create file'}
+            />
         </div>
     );
 }

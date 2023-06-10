@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import Button from './ui/Button';
 
 export interface ILoginProps {
     setUser: (s: any) => void;
@@ -31,13 +32,12 @@ export function Login({ setUser, setAccessToken }: ILoginProps): JSX.Element {
 
     return (
         <div>
-            <button
+            <Button
                 onClick={() => {
                     googleLogin();
                 }}
-            >
-                Login
-            </button>
+                text={'Login'}
+            />
         </div>
     );
 }

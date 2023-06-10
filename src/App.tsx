@@ -7,6 +7,7 @@ import { ReadFile } from './components/ReadFile';
 import { type ITable } from './models/ITable';
 import { TableView } from './components/TableView';
 import { type IGoogleUser } from './models/IGoogleUser';
+// import { colors } from './constants/colors';
 
 function App(): JSX.Element {
     const [user, setUser] = useState<IGoogleUser | null>(null);
@@ -21,23 +22,31 @@ function App(): JSX.Element {
 
     return (
         <div className="App" style={{ backgroundColor: '#30475E' }}>
-            Author Questions
-            <Login
-                setUser={(user) => {
-                    setUser(user);
-                }}
-                setAccessToken={(token: string) => {
-                    setAccessToken(token);
-                }}
-            />
-            <UserInfo user={user} token={accessToken} />
-            <CreateFile token={accessToken} />
-            <ReadFile
-                token={accessToken}
-                setTables={(tables: ITable[]) => {
-                    setTables(tables);
-                }}
-            />
+            <div className="header">
+                <h1>Author Questions</h1>
+
+                <div className="login">
+                    <UserInfo user={user} token={accessToken} />
+                    <Login
+                        setUser={(user) => {
+                            setUser(user);
+                        }}
+                        setAccessToken={(token: string) => {
+                            setAccessToken(token);
+                        }}
+                    />
+                </div>
+            </div>
+
+            <div className="settings">
+                <CreateFile token={accessToken} />
+                <ReadFile
+                    token={accessToken}
+                    setTables={(tables: ITable[]) => {
+                        setTables(tables);
+                    }}
+                />
+            </div>
             <TableView tables={tables} />
         </div>
     );
