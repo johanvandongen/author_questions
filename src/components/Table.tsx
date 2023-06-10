@@ -14,7 +14,7 @@ export default function Table({ table }: ITableProps): JSX.Element {
             <div className="table-header">
                 <p>{table.date}</p>
                 <p>{table.issue}</p>
-                <Treated text={table.treated} />
+                <Treated text={table.treated} id={table.tableId} />
             </div>
 
             <div className="table-row-horizontal">
@@ -30,7 +30,12 @@ export default function Table({ table }: ITableProps): JSX.Element {
                 <p>
                     <span className="table-field">Answer:</span>
                 </p>
-                <p>{table.answer}</p>
+                {table.answer.map((answer) => (
+                    <>
+                        <p key={table.tableId + answer}>{answer}</p>
+                        <br></br>
+                    </>
+                ))}
             </div>
         </div>
     );
