@@ -25,8 +25,9 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
                 headers: { 'Authorization': `Bearer ${token}` },
             })
             .then((response) => {
+                console.log(response.data);
                 console.log(response.data.body);
-                setDocBody(response.data.body);
+                setDocBody(response.data);
             })
             .catch((error) => {
                 console.log(error);
