@@ -1,6 +1,5 @@
 import React from 'react';
 import { type ITable } from '../models/ITable';
-// import '../App.css';
 import '../App.css';
 import Treated from './Treated';
 
@@ -8,6 +7,10 @@ interface ITableProps {
     table: ITable;
 }
 
+/**
+ * Displays the table information in a nice view.
+ * @param table table with information
+ */
 export default function Table({ table }: ITableProps): JSX.Element {
     return (
         <div className="table-container">
@@ -31,10 +34,10 @@ export default function Table({ table }: ITableProps): JSX.Element {
                     <span className="table-field">Answer:</span>
                 </p>
                 {table.answer.map((answer) => (
-                    <>
-                        <p key={table.tableId + answer}>{answer}</p>
+                    <div key={'answer' + table.tableId + answer}>
+                        <p>{answer}</p>
                         <br></br>
-                    </>
+                    </div>
                 ))}
             </div>
         </div>

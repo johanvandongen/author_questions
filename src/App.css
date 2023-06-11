@@ -55,6 +55,14 @@
   width: 30%;
 }
 
+.table-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
+  padding: 0 5rem;
+  gap: 2rem;
+}
+
 .table-container {
   background-color: #DDDDDD;
   text-align: left;

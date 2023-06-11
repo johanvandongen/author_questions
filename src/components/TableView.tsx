@@ -1,24 +1,21 @@
 import * as React from 'react';
 import { type ITable } from '../models/ITable';
 import Table from './Table';
+import '../App.css';
 
 export interface ITableViewProps {
     tables: ITable[];
 }
 
+/**
+ * Displays a grid of tables.
+ * @param tables list of tables.
+ */
 export function TableView({ tables }: ITableViewProps): JSX.Element {
     return (
-        <div
-            style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr',
-                justifyContent: 'space-between',
-                padding: '0 5rem',
-                gap: '2rem',
-            }}
-        >
+        <div className="table-view">
             {tables.map((table: ITable) => (
-                <Table key={table.date + table.answer.join() + table.tableId} table={table} />
+                <Table key={'table' + table.tableId + table.answer.join()} table={table} />
             ))}
         </div>
     );
