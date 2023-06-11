@@ -8,15 +8,15 @@ export interface IUserInfoProps {
 
 export function UserInfo({ user, token }: IUserInfoProps): JSX.Element {
     return (
-        <div style={style}>
-            <p>{user === null ? 'Log in to continue' : 'Hello ' + user.name}</p>
-            <p>Your access token {token}</p>
+        <div>
+            <h3>{user === null ? 'Log in to continue' : 'Hello ' + user.name}</h3>
+            {/* <p>Your access token {token}</p> */}
         </div>
     );
 }
 
-const style = {
-    color: 'white',
-    backgroundColor: '#F05454',
-    padding: '5rem',
-};
+// const style = {
+//     color: 'white',
+//     backgroundColor: '#F05454',
+//     padding: '5rem',
+// };

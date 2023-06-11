@@ -1,39 +1,45 @@
-import * as React from 'react';
+import React from 'react';
 import { type ITable } from '../models/ITable';
+import '../App.css';
+import Treated from './Treated';
 
-export interface ITableProps {
+interface ITableProps {
     table: ITable;
 }
 
-export function Table({ table }: ITableProps): JSX.Element {
+/**
+ * Displays the table information in a nice view.
+ * @param table table with information
+ */
+export default function Table({ table }: ITableProps): JSX.Element {
     return (
-        <div
-            style={{
-                backgroundColor: '#DDDDDD',
-                margin: '1rem',
-                textAlign: 'left',
-                padding: 5,
-                borderRadius: '1rem',
-            }}
-        >
-            <div>
-                {table.date} {table.issue} {table.treated}
+        <div className="table-container">
+            <div className="table-header">
+                <p>{table.date}</p>
+                <p>{table.issue}</p>
+                <Treated text={table.treated} id={table.tableId} />
             </div>
-            <div>Author: {table.author}</div>
-            <div style={rowStyle}>
-                <p style={{ paddingBottom: 5 }}>Question:</p>
+
+            <div className="table-row-horizontal">
+                <span className="table-field">Author: </span> {table.author}
+            </div>
+            <div className="table-row">
+                <p>
+                    <span className="table-field">Question:</span>
+                </p>
                 <p>{table.question}</p>
             </div>
-            <div style={rowStyle}>
-                <p>Answer:</p>
-                <p>{table.answer}</p>
+            <div className="table-row">
+                <p>
+                    <span className="table-field">Answer:</span>
+                </p>
+                {table.answer.map((answer) => (
+                    <div key={'answer' + table.tableId + answer}>
+                        <p>{answer}</p>
+                        <br></br>
+                    </div>
+                ))}
             </div>
         </div>
     );
 }
-
-const rowStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 5,
-};

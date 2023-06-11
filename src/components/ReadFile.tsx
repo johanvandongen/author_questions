@@ -5,6 +5,7 @@ import { parseGoogleDoc } from '../utils/googleDocParser';
 import { getGoogleDoc } from '../services/getGoogleDoc';
 import { getGoogleFolderFiles } from '../services/getGoogleFolderFiles';
 import { getIdFromUrl } from '../utils/utils';
+import InputConfirm from './ui/InputConfirm';
 
 export interface IReadFileProps {
     token: string;
@@ -12,23 +13,24 @@ export interface IReadFileProps {
 }
 
 export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
-    const [docUrl, setDocUrl] = useState<string>('');
-    const [folderUrl, setFolderUrl] = useState<string>('');
     const [questionDocIds, setQuestionDocIds] = useState<string[]>([]);
 
     /** Stores google doc id (retrieved from URL) in state. */
-    function readFile(): void {
-        const docId = getIdFromUrl(docUrl);
+    function readFile(url: string): void {
+        console.log('called with', url);
+        const docId = getIdFromUrl(url);
         if (docId === null) {
+            alert('URL not found');
             return;
         }
         setQuestionDocIds(docId);
     }
 
     /** Stores all document ids from specified folder URL in state. */
-    function readFolder(token: string): void {
-        const folderId = getIdFromUrl(folderUrl);
+    function readFolder(url: string): void {
+        const folderId = getIdFromUrl(url);
         if (folderId === null) {
+            alert('URL not found');
             return;
         }
         void getGoogleFolderFiles(token, folderId.toString())
@@ -37,6 +39,7 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
             })
             .catch((error) => {
                 console.log(error);
+                alert(error);
             });
     }
 
@@ -72,41 +75,21 @@ export function ReadFile({ token, setTables }: IReadFileProps): JSX.Element {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <button
-                onClick={() => {
-                    readFile();
+            <InputConfirm
+                onClick={(input: string) => {
+                    readFile(input);
                 }}
-            >
-                read file
-            </button>
-            <label>
-                Enter doc URL
-                <input
-                    type="text"
-                    value={docUrl}
-                    onChange={(e) => {
-                        setDocUrl(e.target.value);
-                    }}
-                />
-            </label>
+                buttonText={'Read file'}
+                description={'Enter doc URL'}
+            />
 
-            <button
-                onClick={() => {
-                    readFolder(token);
+            <InputConfirm
+                onClick={(input: string) => {
+                    readFolder(input);
                 }}
-            >
-                read folder
-            </button>
-            <label>
-                Enter drive URL
-                <input
-                    type="text"
-                    value={folderUrl}
-                    onChange={(e) => {
-                        setFolderUrl(e.target.value);
-                    }}
-                />
-            </label>
+                buttonText={'read folder'}
+                description={'Enter drive URL'}
+            />
         </div>
     );
 }
