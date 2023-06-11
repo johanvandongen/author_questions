@@ -7,7 +7,7 @@ import { ReadFile } from './components/ReadFile';
 import { type ITable } from './models/ITable';
 import { TableView } from './components/TableView';
 import { type IGoogleUser } from './models/IGoogleUser';
-import InputConfirm from './components/ui/InputConfirm';
+import Filter from './components/Filter';
 // import { colors } from './constants/colors';
 
 function App(): JSX.Element {
@@ -20,29 +20,29 @@ function App(): JSX.Element {
     );
     const [accessToken, setAccessToken] = useState('');
 
-    const filter = (input: string): void => {
-        if (input === '') {
-            return;
-        }
-        setActiveTables(
-            tables.filter((table) => {
-                const values = Object.values(table);
-                for (const value of values) {
-                    let newVal: string = value;
-                    if (Array.isArray(value)) {
-                        newVal = value.join();
-                        console.log('old', value, 'new', newVal);
-                    }
+    // const filter = (input: string): void => {
+    //     if (input === '') {
+    //         return;
+    //     }
+    //     setActiveTables(
+    //         tables.filter((table) => {
+    //             const values = Object.values(table);
+    //             for (const value of values) {
+    //                 let newVal: string = value;
+    //                 if (Array.isArray(value)) {
+    //                     newVal = value.join();
+    //                     console.log('old', value, 'new', newVal);
+    //                 }
 
-                    if (newVal.includes(input)) {
-                        console.log(value);
-                        return true;
-                    }
-                }
-                return false;
-            })
-        );
-    };
+    //                 if (newVal.includes(input)) {
+    //                     console.log(value);
+    //                     return true;
+    //                 }
+    //             }
+    //             return false;
+    //         })
+    //     );
+    // };
 
     useEffect(() => {
         localStorage.setItem('tables', JSON.stringify(tables));
@@ -81,12 +81,11 @@ function App(): JSX.Element {
                     />
                 </div>
                 <div className="right-section">
-                    <InputConfirm
-                        onClick={(input: string) => {
-                            filter(input);
+                    <Filter
+                        tables={tables}
+                        setActiveTables={(tables) => {
+                            setActiveTables(tables);
                         }}
-                        description={'Search'}
-                        buttonText={'Confirm'}
                     />
                 </div>
             </div>
