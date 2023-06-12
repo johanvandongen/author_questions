@@ -8,7 +8,6 @@ import { type ITable } from './models/ITable';
 import { TableView } from './components/TableView';
 import { type IGoogleUser } from './models/IGoogleUser';
 import Filter from './components/Filter';
-// import { colors } from './constants/colors';
 
 function App(): JSX.Element {
     const [user, setUser] = useState<IGoogleUser | null>(null);
@@ -19,30 +18,6 @@ function App(): JSX.Element {
         JSON.parse(localStorage.getItem('tables') ?? '[]') as ITable[]
     );
     const [accessToken, setAccessToken] = useState('');
-
-    // const filter = (input: string): void => {
-    //     if (input === '') {
-    //         return;
-    //     }
-    //     setActiveTables(
-    //         tables.filter((table) => {
-    //             const values = Object.values(table);
-    //             for (const value of values) {
-    //                 let newVal: string = value;
-    //                 if (Array.isArray(value)) {
-    //                     newVal = value.join();
-    //                     console.log('old', value, 'new', newVal);
-    //                 }
-
-    //                 if (newVal.includes(input)) {
-    //                     console.log(value);
-    //                     return true;
-    //                 }
-    //             }
-    //             return false;
-    //         })
-    //     );
-    // };
 
     useEffect(() => {
         localStorage.setItem('tables', JSON.stringify(tables));

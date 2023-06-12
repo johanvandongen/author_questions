@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { type ITable } from '../models/ITable';
-import { isAnswered } from '../utils/utils';
+import { answeredSearch, generalSearch, treatedOptions } from '../utils/filter';
 
-enum treatedOptions {
-    yes = 'yes',
-    no = 'no',
-    pending = 'pending',
-    all = 'all',
-}
 interface IInputConfirmProps {
     tables: ITable[];
     setActiveTables: (tables: ITable[]) => void;
@@ -18,44 +12,10 @@ export default function Filter({ tables, setActiveTables }: IInputConfirmProps):
     const [input, setInput] = useState<string>('');
     const [treated, setIsTreated] = useState<treatedOptions>(treatedOptions.all);
 
-    const answeredSearch = (table: ITable, answer: treatedOptions): boolean => {
-        if (answer === treatedOptions.all) {
-            return true;
-        } else if (answer === treatedOptions.yes) {
-            return isAnswered(table.treated);
-        } else if (answer === treatedOptions.no) {
-            return table.treated.trim() === '';
-        } else if (answer === treatedOptions.pending) {
-            return !isAnswered(table.treated) && table.treated.trim() !== '';
-        }
-        return false;
-    };
-
-    const generalSearch = (table: ITable): boolean => {
-        const values = Object.values(table);
-        for (const value of values) {
-            let newVal: string = value;
-            if (Array.isArray(value)) {
-                newVal = value.join();
-            }
-
-            if (newVal.toLowerCase().includes(input.toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
-    };
-
     const filter = (input: string): void => {
-        let gen = false;
-        if (input === '') {
-            gen = true;
-            return;
-        }
-
         setActiveTables(
             tables.filter((table) => {
-                return (generalSearch(table) || gen) && answeredSearch(table, treated);
+                return generalSearch(table, input) && answeredSearch(table, treated);
             })
         );
     };
