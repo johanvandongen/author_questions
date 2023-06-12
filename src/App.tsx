@@ -7,17 +7,24 @@ import { ReadFile } from './components/ReadFile';
 import { type ITable } from './models/ITable';
 import { TableView } from './components/TableView';
 import { type IGoogleUser } from './models/IGoogleUser';
-// import { colors } from './constants/colors';
+import Filter from './components/Filter';
 
 function App(): JSX.Element {
     const [user, setUser] = useState<IGoogleUser | null>(null);
     const [tables, setTables] = useState<ITable[]>(
         JSON.parse(localStorage.getItem('tables') ?? '[]') as ITable[]
     );
+    const [activeTables, setActiveTables] = useState<ITable[]>(
+        JSON.parse(localStorage.getItem('tables') ?? '[]') as ITable[]
+    );
     const [accessToken, setAccessToken] = useState('');
 
     useEffect(() => {
         localStorage.setItem('tables', JSON.stringify(tables));
+    }, [tables]);
+
+    useEffect(() => {
+        setActiveTables(tables);
     }, [tables]);
 
     return (
@@ -39,15 +46,25 @@ function App(): JSX.Element {
             </div>
 
             <div className="settings">
-                <CreateFile token={accessToken} />
-                <ReadFile
-                    token={accessToken}
-                    setTables={(tables: ITable[]) => {
-                        setTables(tables);
-                    }}
-                />
+                <div className="left-section">
+                    <CreateFile token={accessToken} />
+                    <ReadFile
+                        token={accessToken}
+                        setTables={(tables: ITable[]) => {
+                            setTables(tables);
+                        }}
+                    />
+                </div>
+                <div className="right-section">
+                    <Filter
+                        tables={tables}
+                        setActiveTables={(tables) => {
+                            setActiveTables(tables);
+                        }}
+                    />
+                </div>
             </div>
-            <TableView tables={tables} />
+            <TableView tables={activeTables} />
         </div>
     );
 }

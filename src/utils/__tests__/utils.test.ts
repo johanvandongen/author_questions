@@ -1,4 +1,4 @@
-import { getIdFromUrl, parseTitle } from './utils';
+import { getIdFromUrl, parseTitle } from '../utils';
 
 describe('parse title', () => {
     test('author Jayin', () => {

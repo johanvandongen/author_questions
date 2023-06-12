@@ -14,9 +14,3 @@ export function UserInfo({ user, token }: IUserInfoProps): JSX.Element {
         </div>
     );
 }
-
-// const style = {
-//     color: 'white',
-//     backgroundColor: '#F05454',
-//     padding: '5rem',
-// };
