@@ -21,8 +21,7 @@ body {
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5rem;
-  height: 10rem;
+  padding: 2rem 5rem;
   background-color: var(--red30);
 }
 
@@ -145,3 +144,46 @@ body {
   padding-right: 1rem;
 }
 
+@media (max-width:600px)  { 
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 2rem 1rem;
+  }
+  
+  .login {
+    margin-top: 1rem;
+    width: auto;
+  }
+
+  .settings {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1rem;
+  }
+
+  .settings .left-section {
+    width: 100%;
+  }
+
+  .table-view {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .input-confirm {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .input-confirm p {
+    width: 100%;
+  }
+
+  .input-confirm button {
+    margin: 1rem;
+    width: 100%;
+    margin-left: 0;
+  }
+}

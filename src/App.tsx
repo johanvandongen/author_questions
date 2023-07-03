@@ -30,7 +30,7 @@ function App(): JSX.Element {
     return (
         <div className="App" style={{ backgroundColor: '#30475E' }}>
             <div className="header">
-                <h1>Author Questions</h1>
+                <h1>AQ uthor Questions</h1>
 
                 <div className="login">
                     <UserInfo user={user} token={accessToken} />
